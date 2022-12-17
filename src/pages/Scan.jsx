@@ -5,10 +5,10 @@ import "antd/dist/antd.min.css"
 import QrScanner from "qr-scanner"
 import { useState, useCallback, useRef, useEffect } from "react"
 import Webcam from "react-webcam"
-import { Button } from "antd"
+import { Button, Input } from "antd"
 import { createRef } from "react"
 import { QrReader } from "react-qr-reader"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 
 export default function Scan() {
   const webcamRef = createRef()
@@ -17,6 +17,8 @@ export default function Scan() {
   const [result, setResult] = useState("No result")
   const delay = 100
   const [camera, setCamera] = useState("front")
+  const navigate = useNavigate()
+  const [productID, setProductID] = useState("")
   // useEffect
   // // const scanner = new QrScanner(
   // //   webcamRef.current.video,
@@ -77,19 +79,21 @@ export default function Scan() {
         delay={300}
         style={{ width: "50%", height: "50%" }}
         onResult={(result, error) => {
-          console.log("result", result)
           if (!!result) {
+            // console.log(result)
             setResult(result?.text)
+            navigate(`/product/${result?.text}`)
+            webcamRef.current.stopCamera()
           }
-
           if (!!error) {
-            console.info(error)
+            // console.info(error)
           }
         }}
         constraints={{ facingMode: "environment" }}
+        ref={webcamRef}
       />
 
-      <p>{JSON.stringify(result)}</p>
+      {/* <p>{JSON.stringify(result)}</p>
       <Button
         onClick={() => {
           // console.log(webcamRef)
@@ -100,7 +104,26 @@ export default function Scan() {
         }}
       >
         Change camera
-      </Button>
+      </Button> */}
+      <div className="text-center">
+        <p>Input id in case the QR not work</p>
+        <div>
+          <Input
+            className="!w-[40%]"
+            value={productID}
+            onChange={(e) => setProductID(e.target.value)}
+          />
+        </div>
+        <Button
+          onClick={() => {
+            if (productID && productID.length > 0) {
+              navigate("/product/" + productID)
+            }
+          }}
+        >
+          Process to product
+        </Button>
+      </div>
     </div>
   )
 }
