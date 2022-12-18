@@ -29,7 +29,10 @@ export default function Product(props) {
   return (
     <div>
       <div className="p-[20px] pb-[0px]">
-        <NavLink to="/scan">Back to scan</NavLink>
+        <NavLink to="/scan" className="text-[16px]">
+          {" "}
+          {"<<"} Back to scan
+        </NavLink>
       </div>
       <div className="text-[20px] text-center mt-[20px]">
         {currentProduct?.title}

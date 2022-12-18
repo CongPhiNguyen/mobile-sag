@@ -78,7 +78,10 @@ export default function Scan() {
       ></Webcam>
       <img src={imgSrc} alt="" /> */}
       <div className="p-[20px] pb-[0px]">
-        <NavLink to="/">Back to home</NavLink>
+        <NavLink to="/" className="text-[16px]">
+          {" "}
+          {"<<"} Back to home
+        </NavLink>
       </div>
 
       {!isScanned && (
@@ -104,7 +107,6 @@ export default function Scan() {
           ref={webcamRef}
         />
       )}
-      <p>{JSON.stringify(result)}</p>
       {/* <p>{JSON.stringify(result)}</p>
       <Button
         onClick={() => {

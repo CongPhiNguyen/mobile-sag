@@ -23,12 +23,15 @@ export const mainSlice = createSlice({
       // console.log(newStateProduct)
       state.products = action.payload
     },
+    updateProduct: (state, action) => {
+      state.products = action.payload
+    },
     setIsScanned: (state, action) => {
       state.isScanned = action.payload
     }
   }
 })
 
-export const { addProducts, setIsScanned } = mainSlice.actions
+export const { addProducts, setIsScanned, updateProduct } = mainSlice.actions
 
 export default mainSlice.reducer

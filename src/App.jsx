@@ -85,7 +85,10 @@ function App() {
             path="/product/:id"
             element={<Product socketRef={socketRef} socketId={socketId} />}
           ></Route>
-          <Route path="/cart" element={<Cart />}></Route>
+          <Route
+            path="/cart"
+            element={<Cart socketRef={socketRef} socketId={socketId} />}
+          ></Route>
           <Route path="/pay" element={<Payment />}></Route>
           <Route path="/pay-success" element={<PaymentSucess />}></Route>
           {/* <Route path="/detail/:id" element={<Detail></Detail>}></Route>
