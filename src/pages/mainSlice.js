@@ -7,7 +7,8 @@ const initialState = {
 export const mainSlice = createSlice({
   name: "mainSlice",
   initialState: {
-    products: []
+    products: [],
+    isScanned: false
   },
   reducers: {
     // setLoginState: (state, action) => {
@@ -21,10 +22,13 @@ export const mainSlice = createSlice({
       // state.products.
       // console.log(newStateProduct)
       state.products = action.payload
+    },
+    setIsScanned: (state, action) => {
+      state.isScanned = action.payload
     }
   }
 })
 
-export const { addProducts } = mainSlice.actions
+export const { addProducts, setIsScanned } = mainSlice.actions
 
 export default mainSlice.reducer

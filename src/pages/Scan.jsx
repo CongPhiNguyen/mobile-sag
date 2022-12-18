@@ -9,9 +9,12 @@ import { Button, Input } from "antd"
 import { createRef } from "react"
 import { QrReader } from "react-qr-reader"
 import { NavLink, useNavigate } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { setIsScanned } from "./mainSlice"
 
 export default function Scan() {
-  const webcamRef = createRef()
+  const dispatch = useDispatch()
+  const webcamRef = useRef(null)
   const [imgSrc, setImgSrc] = useState(null)
   const [isOpenCamera, setIsOpenCamera] = useState(false)
   const [result, setResult] = useState("No result")
@@ -19,6 +22,8 @@ export default function Scan() {
   const [camera, setCamera] = useState("front")
   const navigate = useNavigate()
   const [productID, setProductID] = useState("")
+  const [isScanned, setIsScanned] = useState(false)
+  const lastResult = useRef()
   // useEffect
   // // const scanner = new QrScanner(
   // //   webcamRef.current.video,
@@ -48,7 +53,8 @@ export default function Scan() {
   // // }
   // const videoConstraints = {
   //   facingMode: { exact: "user" }
-  // }
+
+  console.log("isScanned", isScanned)
   const previewStyle = {
     height: 240,
     width: 320
@@ -75,24 +81,30 @@ export default function Scan() {
         <NavLink to="/">Back to home</NavLink>
       </div>
 
-      <QrReader
-        delay={300}
-        style={{ width: "50%", height: "50%" }}
-        onResult={(result, error) => {
-          if (!!result) {
-            // console.log(result)
-            setResult(result?.text)
-            navigate(`/product/${result?.text}`)
-            webcamRef.current.stopCamera()
-          }
-          if (!!error) {
-            // console.info(error)
-          }
-        }}
-        constraints={{ facingMode: "environment" }}
-        ref={webcamRef}
-      />
-
+      {!isScanned && (
+        <QrReader
+          delay={300}
+          style={{ width: "50%", height: "50%" }}
+          onResult={(result, error) => {
+            if (!!result) {
+              if (lastResult?.current === result.text) {
+                return
+              }
+              lastResult.current = result.text
+              // console.log(result)
+              setResult(result?.text)
+              navigate(`/product/${result?.text}`)
+              setIsScanned(true)
+            }
+            if (!!error) {
+              // console.info(error)
+            }
+          }}
+          constraints={{ facingMode: "environment" }}
+          ref={webcamRef}
+        />
+      )}
+      <p>{JSON.stringify(result)}</p>
       {/* <p>{JSON.stringify(result)}</p>
       <Button
         onClick={() => {

@@ -14,7 +14,7 @@ import { Provider } from "react-redux"
 import Payment from "./pages/Payment"
 import PaymentSucess from "./pages/PaymentSucess"
 
-const host = "http://localhost:5050/"
+const host = "https://payment-be.onrender.com/"
 function App() {
   const socketRef = useRef()
   const [socketId, setSocketId] = useState("")
